@@ -11,6 +11,8 @@ router.post("/register", async (reqs, res) => {
 			email:'armen21mkrtchyan0616@gmail.com'
 		}
 	}
+	res.status(200).json({bosy:{name:"Armen",body:reqs.body}});
+
 
 	try {
 		//generate new password
