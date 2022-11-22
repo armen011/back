@@ -37,22 +37,21 @@ router.post("/register", async (req, res) => {
 });
 
 //LOGIN
-router.post("/login", async (reqs, res) => {
-	const req={
-		body:{
-			password:"Armen.21.06",
-			email:'armen21mkrtchyan0616@gmail.com'
-		}
-	}
+router.post("/login", async (req, res) => {
+
+	const query=req.query
+	const login=query.login
+	const password=query.password
+
 	try {
 		const user = await User.findOne({
-			email: req.body.email.toLowerCase(),
-		});
+			email:login,
+		}) || await User.findOne({username:login})
 
 		!user && res.status(404).json("user not found");
 
 		const validPassword = await bcrypt.compare(
-			req.body.password,
+			password,
 			user.password
 		);
 		!validPassword && res.status(400).json("wrong password");
