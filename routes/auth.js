@@ -39,36 +39,36 @@ router.post("/register", async (reqs, res) => {
 	}
 });
 
-//LOGIN
-router.post("/login", async (reqp, res) => {
-	const req={
-		body:{
-			password:"Armen.21.06",
-			email:'armen21mkrtchyan0616@gmail.com'
-		}
-	}
-	try {
-		const user = await User.findOne({
-			email: req.body.email.toLowerCase(),
-		});
+// //LOGIN
+// router.post("/login", async (reqp, res) => {
+// 	const req={
+// 		body:{
+// 			password:"Armen.21.06",
+// 			email:'armen21mkrtchyan0616@gmail.com'
+// 		}
+// 	}
+// 	try {
+// 		const user = await User.findOne({
+// 			email: req.body.email.toLowerCase(),
+// 		});
 
-		!user && res.status(404).json("user not found");
+// 		!user && res.status(404).json("user not found");
 
-		const validPassword = await bcrypt.compare(
-			req.body.password,
-			user.password
-		);
-		!validPassword && res.status(400).json("wrong password");
+// 		const validPassword = await bcrypt.compare(
+// 			req.body.password,
+// 			user.password
+// 		);
+// 		!validPassword && res.status(400).json("wrong password");
 
-		res.status(200).json(user);
-	} catch (err) {
-		res.status(500).json(err);
-	}
-});
+// 		res.status(200).json(user);
+// 	} catch (err) {
+// 		res.status(500).json(err);
+// 	}
+// });
 
 
 // test
-router.get("/login", async (req, res) => {
+router.post("/login", async (req, res) => {
 
 	res.status(200).json({bosy:{name:"Armen",body:req.body}});
 
