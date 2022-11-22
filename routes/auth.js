@@ -17,11 +17,11 @@ router.post('/check_user',async (req,res)=>{
 	})
 
 	if(!username || !email){
-		res.status(500).json({field:"",text:"Email and username are required"})
+		res.status(403).json({field:"",text:"Email and username are required"})
 	}else if(isEmailUsed){
-		res.status(500).json({field:"email",text:"Email is already used"})
+		res.status(403).json({field:"email",text:"Email is already used"})
 	}else if(isUsernameUsed){
-		res.status(500).json({field:"username",text:"Username is already used"})
+		res.status(403).json({field:"username",text:"Username is already used"})
 	}else{
 		res.status(200).json({status:'ok',username,email})
 	}
