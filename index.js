@@ -23,9 +23,6 @@ app.use(morgan("common"));
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
-app.use("/test",async (req,res)=>{
-	res.status(200).json({bosy:{name:"Armen",env:process.env.MONGO_URL}})
-})
 
 app.listen(process.env.PORT || 8800, () => {
 	console.log("Backend server is running");

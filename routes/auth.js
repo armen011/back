@@ -29,30 +29,37 @@ router.post('/check_user',async (req,res)=>{
 
 //REGISTER
 router.post("/register", async (req, res) => {
-	// const req={
-		// body:{
-		// 	username:"armen21",
-		// 	password:"Armen.21.06",
-		// 	email:'armen21mkrtchyan0616@gmail.com'
-		// }
-	// }
+	const query=req.query
+	const email=query.email
+	const username=query.username
+	const password=query.password
+	const dateOfBirth=query.dateOfBirth
+	const fullName=query.fullName
 
 	try {
+		if(!username || !email|| !password || !dateOfBirth || !fullName){
+			res.status(403).json({field:"",text:"email,username,password,dateOfBirth and fullName are required"})
+		}else{
+
 		//generate new password
 		const salt = await bcrypt.genSalt(10);
-		const hashedPassword = await bcrypt.hash(req.body.password, salt);
-		const emailLowerCase = await req.body.email.toLowerCase();
+		const hashedPassword = await bcrypt.hash(password, salt);
+		const emailLowerCase = await email.toLowerCase();
 
 		//create new user
 		const newUser = new User({
-			username: req.body.username,
+			username,
 			email: emailLowerCase,
 			password: hashedPassword,
+			dateOfBirth,
+			fullName
 		});
 
 		//save user and respond
 		const user = await newUser.save();
 		res.status(200).json(user);
+	}
+
 	} catch (err) {
 		res.status(500).json(err);
 	}
