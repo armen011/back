@@ -18,7 +18,7 @@ mongoose.connect(process.env.MONGO_URL, (err) => {
 //middleware
 app.use(express.json());
 app.use(helmet());
-app.use(morgan("tiny"));
+app.use(morgan("common"));
 
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);

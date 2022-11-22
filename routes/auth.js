@@ -3,14 +3,14 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
 //REGISTER
-router.post("/register", async (req, res) => {
-	// const req={
-		// body:{
-		// 	username:"armen21",
-		// 	password:"Armen.21.06",
-		// 	email:'armen21mkrtchyan0616@gmail.com'
-		// }
-	// }
+router.post("/register", async (reqs, res) => {
+	const req={
+		body:{
+			username:"armen21",
+			password:"Armen.21.06",
+			email:'armen21mkrtchyan0616@gmail.com'
+		}
+	}
 
 	try {
 		//generate new password
@@ -37,13 +37,13 @@ router.post("/register", async (req, res) => {
 });
 
 //LOGIN
-router.post("/login", async (reqe, res) => {
-	const req={
-		body:{
-			password:"Armen.21.06",
-			email:'armen21mkrtchyan0616@gmail.com'
-		}
-	}
+router.post("/login", async (req, res) => {
+	// const req={
+	// 	body:{
+	// 		password:"Armen.21.06",
+	// 		email:'armen21mkrtchyan0616@gmail.com'
+	// 	}
+	// }
 	try {
 		const user = await User.findOne({
 			email: req.body.email.toLowerCase(),
