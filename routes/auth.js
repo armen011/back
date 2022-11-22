@@ -2,6 +2,31 @@ const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
+
+//CHECK USER
+router.post('/check_user',async (req,res)=>{
+	const query=req.query
+	const email=query.email
+	const username=query.username
+
+	const isEmailUsed =await User.findOne({
+		email,
+	})
+	const isUsernameUsed= await User.findOne({
+		username,
+	})
+
+	if(!username || !email){
+		res.status(500).json({field:"",text:"Email and username are required"})
+	}else if(isEmailUsed){
+		res.status(500).json({field:"email",text:"Email is already used"})
+	}else if(isUsernameUsed){
+		res.status(500).json({field:"username",text:"Username is already used"})
+	}else{
+		res.status(200).json({status:'ok',username,email})
+	}
+})
+
 //REGISTER
 router.post("/register", async (req, res) => {
 	// const req={
@@ -29,9 +54,6 @@ router.post("/register", async (req, res) => {
 		const user = await newUser.save();
 		res.status(200).json(user);
 	} catch (err) {
-		console.log("body",req.body)
-		console.log("query",req.query)
-
 		res.status(500).json(err);
 	}
 });
