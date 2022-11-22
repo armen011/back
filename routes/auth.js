@@ -66,4 +66,13 @@ router.post("/login", async (reqp, res) => {
 	}
 });
 
+
+// test
+router.get("/login", async (req, res) => {
+
+	res.status(200).json({bosy:{name:"Armen",body:req.body}});
+
+
+});
+
 module.exports = router;
