@@ -18,6 +18,8 @@ router.post("/register", async (reqs, res) => {
 		const hashedPassword = await bcrypt.hash(req.body.password, salt);
 		const emailLowerCase = await req.body.email.toLowerCase();
 
+		console.log("AAAA",emailLowerCase)
+
 		//create new user
 		const newUser = new User({
 			username: req.body.username,
@@ -29,21 +31,20 @@ router.post("/register", async (reqs, res) => {
 		const user = await newUser.save();
 		res.status(200).json(user);
 	} catch (err) {
-		console.log("body",req.body)
-		console.log("query",req.query)
+		console.log("err",err)
 
 		res.status(500).json(err);
 	}
 });
 
 //LOGIN
-router.post("/login", async (req, res) => {
-	// const req={
-	// 	body:{
-	// 		password:"Armen.21.06",
-	// 		email:'armen21mkrtchyan0616@gmail.com'
-	// 	}
-	// }
+router.post("/login", async (reqp, res) => {
+	const req={
+		body:{
+			password:"Armen.21.06",
+			email:'armen21mkrtchyan0616@gmail.com'
+		}
+	}
 	try {
 		const user = await User.findOne({
 			email: req.body.email.toLowerCase(),
