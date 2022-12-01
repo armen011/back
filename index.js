@@ -1,4 +1,5 @@
 const express = require("express");
+const socketServer = require('socket.io');
 const cors = require("cors");
 const app = express();
 app.use(cors({ origin: "*" }));
@@ -9,6 +10,9 @@ const morgan = require("morgan");
 const userRoute = require("./routes/users");
 const authRoute = require("./routes/auth");
 const postRoute = require("./routes/posts");
+const chatRoute = require("./routes/chat");
+const socket = require('./socket');
+
 
 dotenv.config();
 
@@ -25,7 +29,14 @@ app.use(morgan("common"));
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
+app.use("/api/chat", chatRoute);
 
-app.listen(process.env.PORT || 8800, () => {
+const server=app.listen(process.env.PORT || 8800, () => {
   console.log("Backend server is running");
 });
+
+
+
+const  io = socketServer(server,{cors:{origin:"*"}})
+socket(io)
+
