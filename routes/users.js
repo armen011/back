@@ -48,6 +48,26 @@ router.get("/:id", async (req, res) => {
 		const { password, updatedAt, ...other } = user._doc;
 		res.status(200).json(other);
 	} catch (err) {
+		res.status(500).json(err);s
+	}
+});
+
+//Search user 
+router.get("/", async (req, res) => {
+	try {
+		const query=req.query.query
+		const users = await User.find()
+		const searchedUsers=users.map((user)=>{
+			console.log("USER",user.username,query)
+			const upperCaseUsername=user.username.toUpperCase()
+			const upperCaseQuery=query.toUpperCase()
+			if(upperCaseUsername.includes(upperCaseQuery)){
+				return {fullName:user.fullName,img:user.profilePicture,username:user.username,id:user._id}
+			}
+		}).filter(user=>!!user)
+		// removes password and updatedAt from data
+		res.status(200).json(searchedUsers);
+	} catch (err) {
 		res.status(500).json(err);
 	}
 });
