@@ -26,13 +26,11 @@ router.post("/", async (req, res) => {
       const newRoom = new ChatRoom(req.body);
       const savedRoom = await newRoom.save();
       console.log("----", savedRoom.id);
-      res
-        .status(200)
-        .json({
-          id: savedRoom.id,
-          title: member.fullName,
-          picture: member.profilePicture,
-        });
+      res.status(200).json({
+        id: savedRoom.id,
+        title: member.fullName,
+        picture: member.profilePicture,
+      });
     }
   } catch (err) {
     res.status(500).json(err);
@@ -77,6 +75,7 @@ router.get("/", async (req, res) => {
               id: chat.id,
               title: user.fullName,
               picture: user.profilePicture,
+              userId: user.id,
             };
           } catch (err) {}
         })
