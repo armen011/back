@@ -4,15 +4,15 @@ const User = require("../models/User");
 
 //create a post
 router.post("/", async (req, res) => {
-  console.log("req.body", req.body);
-  //   const newPost = new Post(req.body);
-  //   try {
-  //     const savedPost = await newPost.save();
-  //     res.status(200).json(savedPost);
-  //   } catch (err) {
-  //     res.status(500).json(err);
-  //   }
-  res.status(200).json({ suc: "okoko" });
+  const { images, content, userId } = req.body;
+  const img = images.map((data) => JSON.stringify(data));
+  const newPost = new Post({ userId, img, desc: content });
+  try {
+    const savedPost = await newPost.save();
+    res.status(200).json(savedPost);
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 //update a post
@@ -72,16 +72,22 @@ router.get("/:id", async (req, res) => {
 });
 
 //get timeline posts
-router.get("/timeline/all", async (req, res) => {
+router.get("/:userId/timeline/all", async (req, res) => {
   try {
-    const currentUser = await User.findById(req.body.userId);
+    const currentUser = await User.findById(req.params.userId);
     const userPosts = await Post.find({ userId: currentUser._id });
     const friendPosts = await Promise.all(
       currentUser.followings.map((friendId) => {
         return Post.find({ userId: friendId });
       })
     );
-    res.json(userPosts.concat(...friendPosts));
+    const allPostsString = userPosts.concat(...friendPosts);
+
+    const allPosts = allPostsString.map((post) => ({
+      ...post,
+      images: post.img.map((img) => JSON.parse(img)),
+    }));
+    res.json(allPosts);
   } catch (err) {
     res.status(500).json(err);
   }

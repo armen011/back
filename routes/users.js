@@ -71,6 +71,7 @@ router.get("/", async (req, res) => {
 		res.status(500).json(err);
 	}
 });
+
 //follow a user
 router.put("/:id/follow", async (req, res) => {
 	if (req.body.userId !== req.params.id) {
